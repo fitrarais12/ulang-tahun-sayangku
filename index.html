@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Selamat Ulang Tahun, Sayang!</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="overlay"></div>
+
+    <section class="section" id="intro">
+      <div class="content">
+        <h1>Selamat Ulang Tahun, [sayangkuu]!</h1>
+        <p>
+          Hari ini adalah hari spesial sayang, karena seperti pepatah bilang
+          jangan pernah menghitung banyaknya lilin, namun lihat cahayanya.Jangan
+          perhitungkan usianya, tapi nikmati momentnya.
+        </p>
+        <div class="icon-box">
+          <i class="icon fas fa-heart"></i>
+          <i class="icon fas fa-gift"></i>
+          <i class="icon fas fa-star"></i>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="gallery">
+      <div class="content">
+        <h2>Sedikit foto sama sayangku</h2>
+        <div class="photo-gallery">
+          <img src="foto/IMG_9408.PNG" alt="Kenangan 2" class="photo" />
+          <img src="img/bg-prewed.jpg.jpg" alt="Kenangan 1" class="photo" />
+          <img src="foto/YACC7121[1].JPG" alt="Kenangan 3" class="photo" />
+          <img src="foto/tr.12.jpg" alt="Kenangan 4" class="photo" />
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="wishes">
+      <div class="content">
+        <h2>Harapanku Untuk sayang</h2>
+        <p>
+          seperti bunga yang mekar,aku saya sangat mencintaimu sayang, i love
+          you so Much senang bertemu dan bersama mu hingga tua nnti
+        </p>
+        <p>I Love You So Much Forever! ❤</p>
+      </div>
+    </section>
+
+    <button id="musicControl"><i class="fas fa-volume-up"></i></button>
+
+    <audio id="bgMusic" loop>
+      <source
+        src="song/happy-birthday-to-you-piano-version-13976.mp3"
+        type="audio/mpeg"
+      />
+      Your browser does not support the audio element.
+    </audio>
+
+    <script>
+      gsap.registerPlugin(ScrollTrigger);
+
+      // Animasi judul
+      gsap.from("h1", {
+        duration: 2,
+        opacity: 0,
+        y: 100,
+        ease: "elastic.out(1, 0.3)",
+      });
+
+      // Animasi ikon
+      gsap.from(".icon", {
+        duration: 1,
+        opacity: 0,
+        y: 50,
+        stagger: 0.2,
+        ease: "back.out(1.7)",
+      });
+
+      // Animasi foto
+      gsap.utils.toArray(".photo").forEach((photo) => {
+        gsap.from(photo, {
+          scrollTrigger: {
+            trigger: photo,
+            start: "top 80%",
+            end: "bottom 20%",
+            toggleActions: "play none none reverse",
+          },
+          duration: 1,
+          opacity: 0,
+          scale: 0,
+          rotation: 360,
+          ease: "back.out(1.7)",
+        });
+      });
+
+      // Animasi hati mengambang
+      function createFloatingHeart() {
+        const heart = document.createElement("div");
+        heart.innerHTML = "❤";
+        heart.classList.add("floating-heart");
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.top = "100vh";
+        document.body.appendChild(heart);
+
+        gsap.to(heart, {
+          y: -window.innerHeight,
+          x: Math.random() * 100 - 50,
+          rotation: Math.random() * 360,
+          opacity: 1,
+          duration: Math.random() * 3 + 3,
+          ease: "power1.out",
+          onComplete: () => heart.remove(),
+        });
+      }
+
+      setInterval(createFloatingHeart, 1000);
+
+      // Kontrol musik
+      const musicControl = document.getElementById("musicControl");
+      const bgMusic = document.getElementById("bgMusic");
+      let isPlaying = true;
+
+      // Autoplay musik
+      window.addEventListener("load", function () {
+        bgMusic.play().catch(function (error) {
+          console.log(
+            "Autoplay was prevented. Please interact with the document first."
+          );
+          isPlaying = false;
+          musicControl.innerHTML = '<i class="fas fa-volume-mute"></i>';
+        });
+      });
+
+      musicControl.addEventListener("click", function () {
+        if (isPlaying) {
+          bgMusic.pause();
+          musicControl.innerHTML = '<i class="fas fa-volume-mute"></i>';
+        } else {
+          bgMusic.play();
+          musicControl.innerHTML = '<i class="fas fa-volume-up"></i>';
+        }
+        isPlaying = !isPlaying;
+      });
+    </script>
+  </body>
+</html>
